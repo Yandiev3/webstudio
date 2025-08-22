@@ -1,5 +1,5 @@
 import './Header.scss';
-import React, { useState } from 'react'
+
 
 export default function Header({ onOpenCalculator }) {
   const scrollToSection = (sectionId, yOffset = -50) => {
