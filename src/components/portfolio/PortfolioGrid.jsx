@@ -1,4 +1,3 @@
-// components/portfolio/PortfolioGrid.jsx
 import React from 'react';
 import PortfolioCard from './PortfolioCard';
 
@@ -82,7 +81,7 @@ function PortfolioGrid({ activeFilter, showAll, onToggleShowAll }) {
     ? portfolioItems 
     : portfolioItems.filter(item => item.category === activeFilter);
 
-  const displayedItems = showAll ? filteredPortfolio : filteredPortfolio.slice(0, 2);
+  const displayedItems = showAll ? filteredPortfolio : filteredPortfolio.slice(0, 4);
 
   return (
     <>
@@ -92,10 +91,11 @@ function PortfolioGrid({ activeFilter, showAll, onToggleShowAll }) {
         ))}
       </div>
 
-      {filteredPortfolio.length > 2 && (
+      {filteredPortfolio.length > 4 && (
         <div className="portfolioShowMore">
           <button className="showAllBtn" onClick={onToggleShowAll}>
             {showAll ? 'Скрыть' : 'Показать все'} 
+            ({filteredPortfolio.length})
           </button>
         </div>
       )}
