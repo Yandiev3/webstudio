@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/webstudio/static/css/main.5fe59e0d.css",
+    "main.js": "/webstudio/static/js/main.a509bd28.js",
+    "static/media/Backgraund.png": "/webstudio/static/media/Backgraund.7a395baae1700b39ad38.png",
+    "index.html": "/webstudio/index.html",
+    "main.5fe59e0d.css.map": "/webstudio/static/css/main.5fe59e0d.css.map",
+    "main.a509bd28.js.map": "/webstudio/static/js/main.a509bd28.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5fe59e0d.css",
+    "static/js/main.a509bd28.js"
+  ]
+}
