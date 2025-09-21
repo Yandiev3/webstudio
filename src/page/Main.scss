@@ -20,10 +20,16 @@
 .section__1 {
   position: relative;
   background: {
+    color: #333;
     image: url('../../public/assets/image/Backgraund.png');
     size: cover;
     position: center;
+    attachment: fixed; // Добавьте это
   }
+
+  will-change: transform;
+  transform: translateZ(0);
+
   height: 100vh;
   width: 100%;
   
@@ -652,6 +658,136 @@
     &:hover:not(:disabled) {
       background: lighten(hsl(267, 100%, 55%), 10%);
       transform: translateY(-2px);
+    }
+  }
+}
+
+.privacyConsent {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+.consentCheckbox {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    
+    &:checked + .checkmark {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      
+      &::after {
+        display: block;
+      }
+    }
+    
+    &:focus + .checkmark {
+      box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+    }
+  }
+  
+  .checkmark {
+    position: relative;
+    top: 2px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  
+  .consentText {
+    flex: 1;
+  }
+}
+
+.policyLink {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: inherit;
+  display: inline;
+  
+  &:hover {
+    color: lighten(hsl(267, 100%, 55%), 10%);
+  }
+}
+
+// Адаптация для мобильных устройств
+@include mobile {
+  .privacyConsent {
+    margin: 15px 0;
+    padding: 12px;
+  }
+  
+  .consentCheckbox {
+    font-size: 13px;
+    
+    .checkmark {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+      
+      &::after {
+        left: 5px;
+        top: 1px;
+        width: 4px;
+        height: 8px;
+      }
+    }
+  }
+  
+  .policyLink {
+    padding: 0 3px;
+  }
+}
+
+// Для очень маленьких экранов
+@media (max-width: 320px) {
+  .consentCheckbox {
+    font-size: 12px;
+    
+    .checkmark {
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+      
+      &::after {
+        left: 4px;
+        top: 0;
+        width: 3px;
+        height: 6px;
+      }
     }
   }
 }

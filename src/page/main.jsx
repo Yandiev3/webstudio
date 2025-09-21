@@ -23,7 +23,8 @@ function MainCont() {
     email: '',
     phone: '',
     message: '',
-    projectType: ''
+    projectType: '',
+    privacyConsent: false,
   });
   
   // Новые состояния для калькулятора
@@ -260,13 +261,19 @@ function MainCont() {
   };
 
   const submitProjectRequest = (e) => {
-    e.preventDefault();
-    console.log("Данные формы:", formData);
-    console.log("Тип проекта:", selectedProjectType);
-    
-    alert('Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-    closeProjectModal();
-  };
+  e.preventDefault();
+  
+  if (!formData.privacyConsent) {
+    alert('Для отправки заявки необходимо дать согласие на обработку персональных данных');
+    return;
+  }
+  
+  console.log("Данные формы:", formData);
+  console.log("Тип проекта:", selectedProjectType);
+  
+  alert('Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+  closeProjectModal();
+};
 
   const getVisibleReviews = () => {
     const visibleReviews = [];
@@ -413,17 +420,7 @@ function MainCont() {
                         onChange={handleInputChange}
                         required
                       />
-                    </div>
-                    
-                    <div className="formGroup">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                      />
-                    </div>
+                    </div>                    
                     
                     <div className="formGroup">
                       <input
@@ -446,6 +443,40 @@ function MainCont() {
                         onChange={handleInputChange}
                       ></textarea>
                     </div>
+
+                     <div className="privacyConsent">
+        <label className="consentCheckbox">
+          <input
+            type="checkbox"
+            name="privacyConsent"
+            checked={formData.privacyConsent || false}
+            onChange={(e) => setFormData(prev => ({
+              ...prev,
+              privacyConsent: e.target.checked
+            }))}
+            required
+          />
+          <span className="checkmark"></span>
+          <span className="consentText">
+            Я даю согласие на обработку моих персональных данных в соответствии с 
+            <button 
+              type="button" 
+              className="policyLink"
+              onClick={() => window.open('/privacy-policy', '_blank')}
+            >
+              Политикой конфиденциальности
+            </button> 
+            и принимаю 
+            <button 
+              type="button" 
+              className="policyLink"
+              onClick={() => window.open('/user-agreement', '_blank')}
+            >
+              Пользовательское соглашение
+            </button>
+          </span>
+        </label>
+      </div>
                   </form>
                 </div>
               )}
@@ -474,7 +505,7 @@ function MainCont() {
                   <button 
                     className="modalPrimaryBtn"
                     onClick={submitProjectRequest}
-                    disabled={!formData.name || !formData.message || (!formData.email && !formData.phone)}
+                    disabled={!formData.name || !formData.phone || !formData.privacyConsent}
                   >
                     Отправить запрос
                   </button>
