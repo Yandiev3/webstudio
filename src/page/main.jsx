@@ -2,10 +2,12 @@ import { useState, useEffect, useRef } from 'react'
 import Header from '../components/header/Header.jsx'
 import PortfolioGrid from '../components/portfolio/PortfolioGrid.jsx'
 import ProjectTypes from '../components/projectTypes/ProjectTypes.jsx';
+import { useToaster } from '../hooks/useToaster';
 import './Main.scss'
 
 function MainCont() {
   const [selectedService, setSelectedService] = useState(null);
+  const { showToaster, ToasterContainer } = useToaster();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [showAllProjects, setShowAllProjects] = useState(false);
@@ -20,7 +22,6 @@ function MainCont() {
   });
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
     message: '',
     projectType: '',
@@ -223,7 +224,6 @@ function MainCont() {
     setSelectedProjectType(null);
     setFormData({
       name: '',
-      email: '',
       phone: '',
       message: '',
       projectType: ''
@@ -261,19 +261,24 @@ function MainCont() {
   };
 
   const submitProjectRequest = (e) => {
-  e.preventDefault();
-  
-  if (!formData.privacyConsent) {
-    alert('Для отправки заявки необходимо дать согласие на обработку персональных данных');
-    return;
-  }
-  
-  console.log("Данные формы:", formData);
-  console.log("Тип проекта:", selectedProjectType);
-  
-  alert('Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-  closeProjectModal();
-};
+    e.preventDefault();
+    
+    if (!formData.privacyConsent) {
+      showToaster('Для отправки заявки необходимо дать согласие на обработку персональных данных', 'error', 1000);
+      return;
+    }
+    
+    console.log("Данные формы:", formData);
+    console.log("Тип проекта:", selectedProjectType);
+    
+    // Показываем успешный тостер
+    showToaster('Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.', 'success', 6000);
+    
+    // Закрываем модальное окно с задержкой
+    setTimeout(() => {
+      closeProjectModal();
+    }, 300);
+  };
 
   const getVisibleReviews = () => {
     const visibleReviews = [];
@@ -752,6 +757,7 @@ function MainCont() {
           </div>
         </div>
       )}
+      <ToasterContainer />
     </>
   )
 }
